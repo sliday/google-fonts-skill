@@ -12,13 +12,17 @@ Claude Code skill for typography system generation using Google Fonts. Searches 
 
 ## Installation
 
-Copy to your Claude Code skills directory:
+### From Marketplace (recommended)
 
 ```bash
-cp -r . ~/.claude/skills/google-fonts
+# Add the marketplace
+claude plugin marketplace add sliday/google-fonts-skill
+
+# Install the plugin
+claude plugin install google-fonts
 ```
 
-Or clone directly:
+### Manual
 
 ```bash
 git clone https://github.com/sliday/google-fonts-skill.git ~/.claude/skills/google-fonts
