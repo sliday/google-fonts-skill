@@ -433,9 +433,20 @@ def generate_index(projects):
     </a>
 """
 
+    short_labels = {
+        "documentation": "docs",
+        "ecommerce": "shop",
+        "education": "edu",
+        "enterprise": "corp",
+        "marketing": "mktg",
+        "portfolio": "folio",
+        "restaurant": "food",
+        "wellness": "health",
+    }
     filter_buttons = '<button class="filter-btn active" data-filter="all">All</button>\n'
     for t in types:
-        filter_buttons += f'      <button class="filter-btn" data-filter="{t}">{t}</button>\n'
+        label = short_labels.get(t, t)
+        filter_buttons += f'      <button class="filter-btn" data-filter="{t}">{label}</button>\n'
 
     BASE_URL = "https://sliday.github.io/google-fonts-skill"
 
