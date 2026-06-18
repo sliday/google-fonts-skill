@@ -20,8 +20,8 @@ def main():
     font_group.add_argument("--heading", help="Heading font family name")
 
     parser.add_argument("--body", help="Body font family name")
-    parser.add_argument("--heading-weights", default="400,700", help="Weights for heading (default: 400,700)")
-    parser.add_argument("--body-weights", default="300,400,500,600,700", help="Weights for body (default: 300,400,500,600,700)")
+    parser.add_argument("--heading-weights", default="400;700", help="Weights for heading (default: 400;700)")
+    parser.add_argument("--body-weights", default="300;400;500;600;700", help="Weights for body (default: 300;400;500;600;700)")
     parser.add_argument("--scale", default="major-third", choices=SCALES.keys(), help="Typographic scale (default: major-third)")
     parser.add_argument("--base", type=int, default=16, help="Base font size in px (default: 16)")
     parser.add_argument("--format", default="all", choices=["css", "tailwind", "embed", "all"], help="Output format (default: all)")

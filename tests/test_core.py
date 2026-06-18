@@ -51,7 +51,7 @@ def test_generate_css():
 
 
 def test_generate_embed():
-    embed = generate_embed("Playfair Display", "Inter", "400,700", "300,400,700")
+    embed = generate_embed("Playfair Display", "Inter", "400;700", "300;400;700")
     assert "fonts.googleapis.com" in embed
     assert "Playfair+Display" in embed
     assert "Inter" in embed

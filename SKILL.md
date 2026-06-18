@@ -55,7 +55,7 @@ python3 scripts/generate-css.py --heading "Playfair Display" --body "Inter" \
 
 # Custom weights and base size
 python3 scripts/generate-css.py --heading "Space Grotesk" --body "DM Sans" \
-  --heading-weights "400,700" --body-weights "300,400,500,700" \
+  --heading-weights "400;700" --body-weights "300;400;500;700" \
   --scale minor-third --base 16 --format css
 ```
 

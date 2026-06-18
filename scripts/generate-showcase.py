@@ -216,8 +216,8 @@ def build_project_list():
             "pairing_name": p["Pairing_Name"],
             "scale": scale,
             "mode": "pair",
-            "heading_weights": p.get("Heading_Weights", "400;700").replace(";", ","),
-            "body_weights": p.get("Body_Weights", "400;700").replace(";", ","),
+            "heading_weights": p.get("Heading_Weights", "400;700"),
+            "body_weights": p.get("Body_Weights", "400;700"),
             "contrast_type": p.get("Contrast_Type", ""),
             "mood": p.get("Mood_Keywords", ""),
         })
@@ -250,8 +250,8 @@ def build_project_list():
             "pairing_name": None,
             "scale": single_scales[i] if i < len(single_scales) else "minor-third",
             "mode": "single",
-            "heading_weights": font.get("Weight_Range", "400-700").replace("-", ","),
-            "body_weights": font.get("Weight_Range", "400-700").replace("-", ","),
+            "heading_weights": font.get("Weight_Range", "400-700").replace("-", ".."),
+            "body_weights": font.get("Weight_Range", "400-700").replace("-", ".."),
             "contrast_type": "Weight",
             "mood": font.get("Mood", ""),
         })
@@ -281,8 +281,8 @@ def build_project_list():
             "pairing_name": p["Pairing_Name"] + " (alt scale)",
             "scale": alt_scales[i],
             "mode": "pair",
-            "heading_weights": p.get("Heading_Weights", "400;700").replace(";", ","),
-            "body_weights": p.get("Body_Weights", "400;700").replace(";", ","),
+            "heading_weights": p.get("Heading_Weights", "400;700"),
+            "body_weights": p.get("Body_Weights", "400;700"),
             "contrast_type": p.get("Contrast_Type", ""),
             "mood": p.get("Mood_Keywords", ""),
         })

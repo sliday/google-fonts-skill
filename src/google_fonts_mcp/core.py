@@ -287,14 +287,20 @@ def generate_tailwind(heading, body, heading_fb, body_fb, sizes, scale_name, rat
     return "\n".join(lines)
 
 
+def _fmt_weights(weights: str) -> str:
+    if "@" in weights:
+        return weights
+    return "wght@" + weights
+
+
 def generate_embed(heading, body, heading_weights, body_weights):
     lines = ['<link rel="preconnect" href="https://fonts.googleapis.com">',
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>']
     families = []
     if heading:
-        families.append(f"family={encode_font(heading)}:wght@{heading_weights}")
+        families.append(f"family={encode_font(heading)}:{_fmt_weights(heading_weights)}")
     if body and body != heading:
-        families.append(f"family={encode_font(body)}:wght@{body_weights}")
+        families.append(f"family={encode_font(body)}:{_fmt_weights(body_weights)}")
     url = "https://fonts.googleapis.com/css2?" + "&".join(families) + "&display=swap"
     lines.append(f'<link href="{url}" rel="stylesheet">')
     return "\n".join(lines)
