@@ -292,9 +292,9 @@ def generate_embed(heading, body, heading_weights, body_weights):
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>']
     families = []
     if heading:
-        families.append(f"family={encode_font(heading)}:wght@{heading_weights}")
+        families.append(f"family={encode_font(heading)}:wght@{heading_weights.replace(',', ';')}")
     if body and body != heading:
-        families.append(f"family={encode_font(body)}:wght@{body_weights}")
+        families.append(f"family={encode_font(body)}:wght@{body_weights.replace(',', ';')}")
     url = "https://fonts.googleapis.com/css2?" + "&".join(families) + "&display=swap"
     lines.append(f'<link href="{url}" rel="stylesheet">')
     return "\n".join(lines)
