@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "google-fonts-mcp"
-version = "1.3.0"
+version = "1.3.1"
 description = "MCP server for Google Fonts typography system generation"
 readme = "README.md"
 license = "MIT"
@@ -18,7 +18,10 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Topic :: Text Processing :: Fonts",
 ]
-dependencies = ["fastmcp>=2.0.0", "rich>=13.0.0"]
+dependencies = ["fastmcp>=2.0.0,<4", "rich>=13.0.0"]
+
+[dependency-groups]
+dev = ["pytest>=8.0"]
 
 [project.scripts]
 google-fonts-mcp = "google_fonts_mcp.server:main"

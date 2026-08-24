@@ -55,3 +55,17 @@ def test_list_pairings_filtered():
     pairings = list_pairings(category="Structure")
     assert len(pairings) > 0
     assert all(p["Contrast_Type"] == "Structure" for p in pairings)
+
+
+def test_generate_typography_system_defaults():
+    """Default call must produce a css2-valid embed (regression for issue #1)."""
+    result = generate_typography_system(heading="Inter")
+    assert set(result) == {"css", "tailwind", "embed"}
+    assert "--font-size-base: 1rem" in result["css"]
+    embed = result["embed"]
+    href = next(line for line in embed.splitlines() if "css2" in line)
+    assert href.count("family=") == 1
+    assert "Inter:wght@" in href
+    axis = href.split("wght@", 1)[1].split("&")[0]
+    assert "," not in axis
+    assert "400" in axis and "700" in axis

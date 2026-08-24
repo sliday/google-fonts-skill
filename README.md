@@ -175,6 +175,16 @@ python3 scripts/generate-showcase.py
 └── registry/                         # MCP registry submission files
 ```
 
+## Development
+
+```bash
+uv sync          # install deps incl. pytest (dev group)
+uv run pytest -q # run the test suite
+```
+
+Weight strings follow the css2 API: semicolons between discrete weights (`400;700`),
+`..` for variable ranges (`100..900`). Comma input is auto-normalized.
+
 ## License
 
 MIT

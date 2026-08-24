@@ -32,7 +32,7 @@ saas, blog, ecommerce, marketing, portfolio, documentation, enterprise, luxury, 
 - Folio Works: Space Mono | perfect-fourth | https://sliday.github.io/google-fonts-skill/pages/folio-works.html
 - Offset Gallery: Syne + Manrope | augmented-fourth | https://sliday.github.io/google-fonts-skill/pages/offset-gallery.html
 - Meridian Cloud: Varela Round + Nunito Sans | minor-third | https://sliday.github.io/google-fonts-skill/pages/meridian-cloud.html
-- Beacon Data: Satoshi + General Sans | perfect-fourth | https://sliday.github.io/google-fonts-skill/pages/beacon-data.html
+- Beacon Data: Plus Jakarta Sans + DM Sans | perfect-fourth | https://sliday.github.io/google-fonts-skill/pages/beacon-data.html
 - Cascade Flow: Be Vietnam Pro + Noto Sans | minor-third | https://sliday.github.io/google-fonts-skill/pages/cascade-flow.html
 - Château Blanc: Noto Serif JP + Noto Sans JP | major-third | https://sliday.github.io/google-fonts-skill/pages/ch-teau-blanc.html
 - Noir Atelier: Noto Sans KR | major-third | https://sliday.github.io/google-fonts-skill/pages/noir-atelier.html
@@ -51,7 +51,7 @@ saas, blog, ecommerce, marketing, portfolio, documentation, enterprise, luxury, 
 - Helios Admin: Orbitron + Exo 2 | major-third | https://sliday.github.io/google-fonts-skill/pages/helios-admin.html
 - Neon Rift: Russo One + Chakra Petch | minor-third | https://sliday.github.io/google-fonts-skill/pages/neon-rift.html
 - Darkroom Portfolio: Amatic SC + Cabin | major-third | https://sliday.github.io/google-fonts-skill/pages/darkroom-portfolio.html
-- Parallax Studios: Clash Display + Satoshi | minor-third | https://sliday.github.io/google-fonts-skill/pages/parallax-studios.html
+- Parallax Studios: Outfit + Rubik | minor-third | https://sliday.github.io/google-fonts-skill/pages/parallax-studios.html
 - Willow & Thread: Rubik + Nunito Sans | major-third | https://sliday.github.io/google-fonts-skill/pages/willow-thread.html
 - Bright Minds Academy: Crimson Pro + Atkinson Hyperlegible | major-third | https://sliday.github.io/google-fonts-skill/pages/bright-minds-academy.html
 - Stratus Monitor: Fira Code + Fira Sans | major-second | https://sliday.github.io/google-fonts-skill/pages/stratus-monitor.html

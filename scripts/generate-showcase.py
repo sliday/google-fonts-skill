@@ -188,6 +188,26 @@ def load_tier_a_body_fonts():
     return fonts
 
 
+
+def font_embed_weights(font):
+    """Weight string for a single-font entry, valid for the css2 API.
+
+    Variable fonts take a range (100..900); static fonts need the discrete
+    non-italic weights from the Styles column (100..900 on a static font
+    returns HTTP 400).
+    """
+    if font.get("Variable", "").strip() == "Yes":
+        return font.get("Weight_Range", "400..700").replace("-", "..")
+    styles = font.get("Styles", "")
+    weights = sorted(
+        {s.strip() for s in styles.split("|") if s.strip() and not s.strip().endswith("i")},
+        key=int,
+    )
+    if weights:
+        return ";".join(weights)
+    return ";".join(sorted(set(font.get("Weight_Range", "400;700").split("-")), key=int))
+
+
 def build_project_list():
     random.seed(42)
     pairings = load_pairings()
@@ -216,8 +236,8 @@ def build_project_list():
             "pairing_name": p["Pairing_Name"],
             "scale": scale,
             "mode": "pair",
-            "heading_weights": p.get("Heading_Weights", "400;700").replace(";", ","),
-            "body_weights": p.get("Body_Weights", "400;700").replace(";", ","),
+            "heading_weights": p.get("Heading_Weights", "400;700"),
+            "body_weights": p.get("Body_Weights", "400;700"),
             "contrast_type": p.get("Contrast_Type", ""),
             "mood": p.get("Mood_Keywords", ""),
         })
@@ -250,8 +270,8 @@ def build_project_list():
             "pairing_name": None,
             "scale": single_scales[i] if i < len(single_scales) else "minor-third",
             "mode": "single",
-            "heading_weights": font.get("Weight_Range", "400-700").replace("-", ","),
-            "body_weights": font.get("Weight_Range", "400-700").replace("-", ","),
+            "heading_weights": font_embed_weights(font),
+            "body_weights": font_embed_weights(font),
             "contrast_type": "Weight",
             "mood": font.get("Mood", ""),
         })
@@ -281,8 +301,8 @@ def build_project_list():
             "pairing_name": p["Pairing_Name"] + " (alt scale)",
             "scale": alt_scales[i],
             "mode": "pair",
-            "heading_weights": p.get("Heading_Weights", "400;700").replace(";", ","),
-            "body_weights": p.get("Body_Weights", "400;700").replace(";", ","),
+            "heading_weights": p.get("Heading_Weights", "400;700"),
+            "body_weights": p.get("Body_Weights", "400;700"),
             "contrast_type": p.get("Contrast_Type", ""),
             "mood": p.get("Mood_Keywords", ""),
         })

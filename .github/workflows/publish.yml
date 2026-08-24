@@ -16,5 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v4
+      - run: uv run pytest -q
       - run: uv build
       - uses: pypa/gh-action-pypi-publish@release/v1

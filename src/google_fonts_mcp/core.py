@@ -2,8 +2,8 @@
 
 import csv
 import importlib.resources
+import os
 import re
-from functools import lru_cache
 from math import log
 from collections import defaultdict
 from pathlib import Path
@@ -12,6 +12,9 @@ MAX_RESULTS = 5
 
 
 def _data_dir() -> Path:
+    override = os.environ.get("GOOGLE_FONTS_MCP_DATA")
+    if override:
+        return Path(override)
     return Path(str(importlib.resources.files("google_fonts_mcp") / "data"))
 
 
@@ -287,14 +290,37 @@ def generate_tailwind(heading, body, heading_fb, body_fb, sizes, scale_name, rat
     return "\n".join(lines)
 
 
+def normalize_weights(weights):
+    """Normalize a weight string for the Google Fonts css2 API.
+
+    css2 separates discrete weights with semicolons (wght@400;700) and ranges
+    with double dots (wght@100..900). Legacy comma input ("400,700") is accepted
+    and converted; explicit axis specs ("ital,wght@0,400;1,700") and ranges pass
+    through untouched. Discrete lists are deduped and sorted (css2 rejects
+    duplicates).
+    """
+    w = str(weights).strip()
+    if "@" in w or ".." in w:
+        return w
+    parts = {p.strip() for p in re.split(r"[;,]", w) if p.strip()}
+    return ";".join(sorted(parts, key=lambda p: int(p) if p.isdigit() else 10**6))
+
+
+def _family_param(font, weights):
+    w = normalize_weights(weights)
+    if "@" in w:
+        return f"family={encode_font(font)}:{w}"
+    return f"family={encode_font(font)}:wght@{w}"
+
+
 def generate_embed(heading, body, heading_weights, body_weights):
     lines = ['<link rel="preconnect" href="https://fonts.googleapis.com">',
              '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>']
     families = []
     if heading:
-        families.append(f"family={encode_font(heading)}:wght@{heading_weights}")
+        families.append(_family_param(heading, heading_weights))
     if body and body != heading:
-        families.append(f"family={encode_font(body)}:wght@{body_weights}")
+        families.append(_family_param(body, body_weights))
     url = "https://fonts.googleapis.com/css2?" + "&".join(families) + "&display=swap"
     lines.append(f'<link href="{url}" rel="stylesheet">')
     return "\n".join(lines)

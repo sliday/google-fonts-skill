@@ -40,7 +40,7 @@
 | Brutalist Raw | Space Mono | Space Mono | Mono + Mono | Weight | perfect-fourth | Brutalist designs, developer portfolios, experimental, tech  |
 | Fashion Forward | Syne | Manrope | Sans + Sans | Proportion | augmented-fourth | Fashion brands, creative agencies, art galleries, design stu |
 | Soft Rounded | Varela Round | Nunito Sans | Sans + Sans | Proportion | minor-third | Children's products, pet apps, friendly brands, wellness, so |
-| Premium Sans | Satoshi | General Sans | Sans + Sans | Proportion | perfect-fourth | Premium brands, modern agencies, SaaS, portfolios, startups |
+| Premium Sans | Plus Jakarta Sans | DM Sans | Sans + Sans | Proportion | perfect-fourth | Premium brands, modern agencies, SaaS, portfolios, startups |
 | Vietnamese Friendly | Be Vietnam Pro | Noto Sans | Sans + Sans | Proportion | minor-third | Vietnamese sites, multilingual apps, international products |
 | Japanese Elegant | Noto Serif JP | Noto Sans JP | Serif + Sans | Structure | major-third | Japanese sites, Japanese restaurants, cultural sites, anime/ |
 | Korean Modern | Noto Sans KR | Noto Sans KR | Sans + Sans | Weight | major-third | Korean sites, K-beauty, K-pop, Korean businesses, multilingu |
@@ -59,7 +59,7 @@
 | Crypto/Web3 | Orbitron | Exo 2 | Sans + Sans | Proportion | major-third | Crypto platforms, NFT, blockchain, web3, futuristic tech |
 | Gaming Bold | Russo One | Chakra Petch | Display + Sans | Weight | minor-third | Gaming, esports, action games, competitive sports, entertain |
 | Indie/Craft | Amatic SC | Cabin | Display + Sans | Weight | major-third | Craft brands, indie products, artisan, handmade, organic pro |
-| Startup Bold | Clash Display | Satoshi | Sans + Sans | Proportion | minor-third | Startups, pitch decks, product launches, bold brands |
+| Startup Bold | Outfit | Rubik | Sans + Sans | Proportion | minor-third | Startups, pitch decks, product launches, bold brands |
 | E-commerce Clean | Rubik | Nunito Sans | Sans + Sans | Proportion | major-third | E-commerce, online stores, product pages, retail, shopping |
 | Academic/Research | Crimson Pro | Atkinson Hyperlegible | Serif + Sans | Structure | major-third | Universities, research papers, academic journals, educationa |
 | Dashboard Data | Fira Code | Fira Sans | Mono + Sans | Structure | major-second | Dashboards, analytics, data visualization, admin panels |

@@ -17,14 +17,19 @@ and body-suitability ratings. Generates complete typographic rhythm systems.
 
 ## Data Files
 
-- `data/fonts.csv` — 1,923 Google Fonts with: Family, Category, Personality, Contrast, Width,
-  Weight_Range, Variable, Body_Suitable, Quality_Tier (A/B/C), Mood, Best_For, CSS_Import
+- `data/fonts.csv` — 1,923 Google Fonts with: Family, Category, Stroke, Personality, Expressive,
+  Contrast, Width, Styles, Weight_Range, Variable, Variable_Axes, Body_Suitable, Quality_Tier (A/B/C),
+  Popularity_Rank, Mood, Best_For, Keywords, Subsets, Google_Fonts_URL, CSS_Import
 - `data/pairings.csv` — 73 proven font pairings with contrast type and scale recommendations
 - `data/scales.csv` — 8 modular type scales with sizes, line-heights, letter-spacing, margins
 - `references/typographic-rhythm.md` — Scale math, line-height tiers, spacing rules
 - `references/pairing-principles.md` — Contrast theory, decision trees, superfamilies
 
 ## Modes
+
+**MCP note:** If the `google-fonts` MCP server is connected, prefer its tools —
+`search_fonts`, `generate_typography_system`, `lookup_font`, `list_scales`, `list_pairings` —
+over the scripts below. The scripts are the fallback for skill-only installs.
 
 ### Single Font (Strict)
 One font for headings AND body. Must have weight range covering 400+700. Body-suitable required.
@@ -42,6 +47,13 @@ python3 scripts/search.py "elegant editorial luxury" --mode pair
 python3 scripts/search.py "tech startup bold" --mode pair
 ```
 
+### Lookup & Scale
+
+```bash
+python3 scripts/search.py "Inter" --mode lookup        # full metadata for a named font
+python3 scripts/search.py "marketing bold" --mode scale  # search type scales
+```
+
 ### Full System Output
 Generate CSS + Tailwind + embed link from font selection + scale choice.
 
@@ -55,7 +67,7 @@ python3 scripts/generate-css.py --heading "Playfair Display" --body "Inter" \
 
 # Custom weights and base size
 python3 scripts/generate-css.py --heading "Space Grotesk" --body "DM Sans" \
-  --heading-weights "400,700" --body-weights "300,400,500,700" \
+  --heading-weights "400;700" --body-weights "300;400;500;700" \
   --scale minor-third --base 16 --format css
 ```
 
@@ -110,6 +122,8 @@ python3 scripts/generate-css.py --heading "Space Grotesk" --body "DM Sans" \
 6. Tier A fonts first, then B, then C
 7. Include `preconnect` hints for fonts.googleapis.com and fonts.gstatic.com
 8. Max 3 font families per project (heading + body + optional mono)
+9. css2 URLs separate weights with semicolons (`wght@400;700`), ranges with `..` (`wght@100..900`);
+   commas and dashes return HTTP 400
 
 ## Output Includes
 
