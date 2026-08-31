@@ -99,41 +99,41 @@
 
 | Family | Category | Personality | Contrast | Weight Range | Variable | Mood | Best For |
 |--------|----------|-------------|----------|-------------|----------|------|----------|
-| Roboto | Sans Serif | Neo Grotesque | Low | 100-900 | Yes | Business|Competent|Calm | Corporate, editorial, dashboards |
-| Open Sans | Sans Serif | Humanist | Low | 300-800 | Yes | Competent|Business|Calm | Education, healthcare, government, acces |
-| Google Sans | Sans Serif | Geometric | Medium | 400-700 | Yes | Business|Competent|Calm | SaaS, tech, apps, UI |
-| Noto Sans JP | Sans Serif | Humanist | Low | 100-900 | Yes | Business|Calm|Competent | Education, healthcare, government, acces |
-| Inter | Sans Serif | Neo Grotesque | Low | 100-900 | Yes | Competent|Business|Calm | Corporate, editorial, dashboards |
-| Montserrat | Sans Serif | Geometric | Low | 100-900 | Yes | Calm|Business|Rugged | SaaS, tech, apps, UI |
-| Poppins | Sans Serif | Geometric | Low | 100-900 | No | Calm|Business|Rugged | SaaS, tech, apps, UI |
-| Lato | Sans Serif | Humanist | Low | 100-900 | No | Competent|Calm|Business | Education, healthcare, government, acces |
-| Roboto Condensed | Sans Serif | Neo Grotesque | Low | 100-900 | Yes | Business|Calm|Competent | Corporate, editorial, dashboards |
-| Arimo | Sans Serif |  | Medium | 400-700 | Yes | Business|Calm|Rugged | General purpose |
-| Oswald | Sans Serif | Grotesque | Low | 200-700 | Yes | Business|Calm|Rugged | General purpose, web body text |
-| Noto Sans | Sans Serif | Humanist | Low | 100-900 | Yes | Business|Calm|Competent | Education, healthcare, government, acces |
-| Raleway | Sans Serif | Geometric | Low | 100-900 | Yes | Calm|Business|Loud | SaaS, tech, apps, UI |
-| Nunito | Sans Serif | Rounded | Low | 200-1000 | Yes | Calm|Business|Competent | Friendly apps, children, casual UI |
-| Nunito Sans | Sans Serif | Rounded | Low | 200-1000 | Yes | Calm|Business|Competent | Friendly apps, children, casual UI |
-| DM Sans | Sans Serif | Geometric | Low | 100-1000 | Yes | Calm|Business|Rugged | SaaS, tech, apps, UI |
-| Rubik | Sans Serif | Neo Grotesque | Medium | 300-900 | Yes | Calm|Business|Rugged | Corporate, editorial, dashboards |
-| Ubuntu | Sans Serif | Neo Grotesque | Low | 300-700 | No | Calm|Business|Competent | Corporate, editorial, dashboards |
-| Roboto Slab | Serif | Geometric | Low | 100-900 | Yes | Competent|Business|Rugged | General purpose |
-| Noto Sans KR | Sans Serif | Humanist | Low | 100-900 | Yes | Business|Calm|Competent | Education, healthcare, government, acces |
-| Merriweather | Serif | Old Style Garalde | High | 300-900 | Yes | Competent|Sincere|Business | General purpose |
-| Work Sans | Sans Serif | Neo Grotesque | Low | 100-900 | Yes | Calm|Business|Competent | Corporate, editorial, dashboards |
-| Archivo | Sans Serif | Grotesque | Low | 100-900 | Yes | Competent|Calm|Business | General purpose, web body text |
-| PT Sans | Sans Serif | Humanist | Low | 400-700 | No | Calm|Business|Competent | Education, healthcare, government, acces |
-| Quicksand | Sans Serif | Geometric | Low | 300-700 | Yes | Calm|Business|Rugged | SaaS, tech, apps, UI |
-| Manrope | Sans Serif | Neo Grotesque | Low | 200-800 | Yes | Calm|Business|Rugged | Corporate, editorial, dashboards |
-| Lora | Serif | Transitional | Medium | 400-700 | Yes | Business|Competent|Sincere | News, editorial, long-form reading |
-| Mulish | Sans Serif | Geometric | Low | 200-1000 | Yes | Calm|Business|Competent | SaaS, tech, apps, UI |
-| Kanit | Sans Serif | Humanist | Low | 100-900 | No | Calm|Rugged|Loud | Education, healthcare, government, acces |
-| Noto Sans TC | Sans Serif | Humanist | Low | 100-900 | Yes | Business|Calm|Competent | Education, healthcare, government, acces |
-| Outfit | Sans Serif | Geometric | Low | 100-900 | Yes | Calm|Business|Rugged | SaaS, tech, apps, UI |
-| Figtree | Sans Serif | Geometric | Low | 300-900 | Yes | Calm|Business|Rugged | SaaS, tech, apps, UI |
-| Fira Sans | Sans Serif | Humanist | Low | 100-900 | No | Business|Competent|Calm | Education, healthcare, government, acces |
-| Barlow | Sans Serif | Grotesque | Low | 100-900 | No | Calm|Rugged|Loud | General purpose, web body text |
-| Prompt | Sans Serif | Geometric | Low | 100-900 | No | Calm|Sincere|Business | SaaS, tech, apps, UI |
+| Roboto | Sans Serif | Neo Grotesque | Low | 100-900 | Yes | Business\|Competent\|Calm | Corporate, editorial, dashboards |
+| Open Sans | Sans Serif | Humanist | Low | 300-800 | Yes | Competent\|Business\|Calm | Education, healthcare, government, acces |
+| Google Sans | Sans Serif | Geometric | Medium | 400-700 | Yes | Business\|Competent\|Calm | SaaS, tech, apps, UI |
+| Noto Sans JP | Sans Serif | Humanist | Low | 100-900 | Yes | Business\|Calm\|Competent | Education, healthcare, government, acces |
+| Inter | Sans Serif | Neo Grotesque | Low | 100-900 | Yes | Competent\|Business\|Calm | Corporate, editorial, dashboards |
+| Montserrat | Sans Serif | Geometric | Low | 100-900 | Yes | Calm\|Business\|Rugged | SaaS, tech, apps, UI |
+| Poppins | Sans Serif | Geometric | Low | 100-900 | No | Calm\|Business\|Rugged | SaaS, tech, apps, UI |
+| Lato | Sans Serif | Humanist | Low | 100-900 | No | Competent\|Calm\|Business | Education, healthcare, government, acces |
+| Roboto Condensed | Sans Serif | Neo Grotesque | Low | 100-900 | Yes | Business\|Calm\|Competent | Corporate, editorial, dashboards |
+| Arimo | Sans Serif |  | Medium | 400-700 | Yes | Business\|Calm\|Rugged | General purpose |
+| Oswald | Sans Serif | Grotesque | Low | 200-700 | Yes | Business\|Calm\|Rugged | General purpose, web body text |
+| Noto Sans | Sans Serif | Humanist | Low | 100-900 | Yes | Business\|Calm\|Competent | Education, healthcare, government, acces |
+| Raleway | Sans Serif | Geometric | Low | 100-900 | Yes | Calm\|Business\|Loud | SaaS, tech, apps, UI |
+| Nunito | Sans Serif | Rounded | Low | 200-1000 | Yes | Calm\|Business\|Competent | Friendly apps, children, casual UI |
+| Nunito Sans | Sans Serif | Rounded | Low | 200-1000 | Yes | Calm\|Business\|Competent | Friendly apps, children, casual UI |
+| DM Sans | Sans Serif | Geometric | Low | 100-1000 | Yes | Calm\|Business\|Rugged | SaaS, tech, apps, UI |
+| Rubik | Sans Serif | Neo Grotesque | Medium | 300-900 | Yes | Calm\|Business\|Rugged | Corporate, editorial, dashboards |
+| Ubuntu | Sans Serif | Neo Grotesque | Low | 300-700 | No | Calm\|Business\|Competent | Corporate, editorial, dashboards |
+| Roboto Slab | Serif | Geometric | Low | 100-900 | Yes | Competent\|Business\|Rugged | General purpose |
+| Noto Sans KR | Sans Serif | Humanist | Low | 100-900 | Yes | Business\|Calm\|Competent | Education, healthcare, government, acces |
+| Merriweather | Serif | Old Style Garalde | High | 300-900 | Yes | Competent\|Sincere\|Business | General purpose |
+| Work Sans | Sans Serif | Neo Grotesque | Low | 100-900 | Yes | Calm\|Business\|Competent | Corporate, editorial, dashboards |
+| Archivo | Sans Serif | Grotesque | Low | 100-900 | Yes | Competent\|Calm\|Business | General purpose, web body text |
+| PT Sans | Sans Serif | Humanist | Low | 400-700 | No | Calm\|Business\|Competent | Education, healthcare, government, acces |
+| Quicksand | Sans Serif | Geometric | Low | 300-700 | Yes | Calm\|Business\|Rugged | SaaS, tech, apps, UI |
+| Manrope | Sans Serif | Neo Grotesque | Low | 200-800 | Yes | Calm\|Business\|Rugged | Corporate, editorial, dashboards |
+| Lora | Serif | Transitional | Medium | 400-700 | Yes | Business\|Competent\|Sincere | News, editorial, long-form reading |
+| Mulish | Sans Serif | Geometric | Low | 200-1000 | Yes | Calm\|Business\|Competent | SaaS, tech, apps, UI |
+| Kanit | Sans Serif | Humanist | Low | 100-900 | No | Calm\|Rugged\|Loud | Education, healthcare, government, acces |
+| Noto Sans TC | Sans Serif | Humanist | Low | 100-900 | Yes | Business\|Calm\|Competent | Education, healthcare, government, acces |
+| Outfit | Sans Serif | Geometric | Low | 100-900 | Yes | Calm\|Business\|Rugged | SaaS, tech, apps, UI |
+| Figtree | Sans Serif | Geometric | Low | 300-900 | Yes | Calm\|Business\|Rugged | SaaS, tech, apps, UI |
+| Fira Sans | Sans Serif | Humanist | Low | 100-900 | No | Business\|Competent\|Calm | Education, healthcare, government, acces |
+| Barlow | Sans Serif | Grotesque | Low | 100-900 | No | Calm\|Rugged\|Loud | General purpose, web body text |
+| Prompt | Sans Serif | Geometric | Low | 100-900 | No | Calm\|Sincere\|Business | SaaS, tech, apps, UI |
 
 ## Top Body Fonts — Tier B (top 30)
 

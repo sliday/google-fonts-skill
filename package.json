@@ -1,0 +1,37 @@
+{
+  "name": "google-fonts-mcp",
+  "version": "1.4.0",
+  "description": "MCP server for Google Fonts typography system generation",
+  "type": "module",
+  "bin": {
+    "google-fonts-mcp": "bin/google-fonts-mcp.js"
+  },
+  "files": [
+    "bin"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "prepublishOnly": "npm test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sliday/google-fonts-skill.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sliday/google-fonts-skill/issues"
+  },
+  "homepage": "https://sliday.github.io/google-fonts-skill/",
+  "keywords": [
+    "mcp",
+    "typography",
+    "google-fonts",
+    "font-pairing",
+    "css",
+    "tailwind"
+  ],
+  "author": "Stas Kulesh <stas@sliday.com>",
+  "license": "MIT"
+}

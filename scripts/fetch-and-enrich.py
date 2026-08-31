@@ -9,6 +9,7 @@ import io
 import os
 import re
 import sys
+import tempfile
 import time
 import urllib.error
 import urllib.parse
@@ -19,6 +20,13 @@ BASE_CSV = os.path.expanduser(
 )
 OUTPUT_CSV = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "data",
+    "fonts.csv",
+)
+PACKAGE_OUTPUT_CSV = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "src",
+    "google_fonts_mcp",
     "data",
     "fonts.csv",
 )
@@ -66,11 +74,14 @@ def log(msg: str) -> None:
 
 def fetch_url(url: str) -> str | None:
     """Fetch URL content with retries. Returns text or None on failure."""
+    parsed = urllib.parse.urlparse(url)
+    if parsed.scheme != "https" or not parsed.hostname:
+        raise ValueError("upstream URL must use HTTPS")
     for attempt in range(1, MAX_RETRIES + 1):
         try:
             log(f"  Fetching {url} (attempt {attempt}/{MAX_RETRIES})...")
             req = urllib.request.Request(url, headers={"User-Agent": "auto-google-font/1.0"})
-            with urllib.request.urlopen(req, timeout=30) as resp:
+            with urllib.request.urlopen(req, timeout=30) as resp:  # nosec B310
                 return resp.read().decode("utf-8")
         except (urllib.error.URLError, urllib.error.HTTPError, OSError) as e:
             log(f"  Error: {e}")
@@ -262,20 +273,17 @@ def main() -> None:
     families_text = fetch_url(FAMILIES_URL)
     quant_text = fetch_url(QUANT_URL)
 
-    families_tags: dict[str, dict[str, int]] = {}
-    quant_data: dict[str, dict[str, float]] = {}
+    if not families_text or not quant_text:
+        log("ERROR: Required upstream font metadata is unavailable; refusing to overwrite fonts.csv")
+        sys.exit(1)
 
-    if families_text:
-        families_tags = parse_families_csv(families_text)
-        log(f"  Parsed tags for {len(families_tags)} fonts")
-    else:
-        log("  WARNING: No families tags data available")
-
-    if quant_text:
-        quant_data = parse_quant_csv(quant_text)
-        log(f"  Parsed quant data for {len(quant_data)} fonts")
-    else:
-        log("  WARNING: No quant data available")
+    families_tags = parse_families_csv(families_text)
+    quant_data = parse_quant_csv(quant_text)
+    if not families_tags or not quant_data:
+        log("ERROR: Required upstream font metadata is empty; refusing to overwrite fonts.csv")
+        sys.exit(1)
+    log(f"  Parsed tags for {len(families_tags)} fonts")
+    log(f"  Parsed quant data for {len(quant_data)} fonts")
 
     # 3. Enrich each font
     log("Enriching font data...")
@@ -370,12 +378,23 @@ def main() -> None:
         )
 
     # 4. Write output
-    os.makedirs(os.path.dirname(OUTPUT_CSV), exist_ok=True)
-    log(f"Writing enriched data to {OUTPUT_CSV}...")
-    with open(OUTPUT_CSV, "w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=output_columns, quoting=csv.QUOTE_MINIMAL)
-        writer.writeheader()
-        writer.writerows(enriched)
+    outputs = (OUTPUT_CSV, PACKAGE_OUTPUT_CSV)
+    temp_paths = []
+    try:
+        for output in outputs:
+            os.makedirs(os.path.dirname(output), exist_ok=True)
+            log(f"Writing enriched data to {output}...")
+            with tempfile.NamedTemporaryFile("w", encoding="utf-8", newline="", dir=os.path.dirname(output), delete=False) as f:
+                temp_paths.append(f.name)
+                writer = csv.DictWriter(f, fieldnames=output_columns, quoting=csv.QUOTE_MINIMAL, lineterminator="\n")
+                writer.writeheader()
+                writer.writerows(enriched)
+        for temp_path, output in zip(temp_paths, outputs):
+            os.replace(temp_path, output)
+    finally:
+        for temp_path in temp_paths:
+            if os.path.exists(temp_path):
+                os.unlink(temp_path)
 
     log(f"Done! Wrote {len(enriched)} fonts to {OUTPUT_CSV}")
 

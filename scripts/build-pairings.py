@@ -7,11 +7,32 @@ Computes: Contrast_Type, Scale_Recommendation, Heading_Weights, Body_Weights
 
 import csv
 import re
-import sys
 from pathlib import Path
 
 INPUT = Path.home() / ".claude/skills/ui-ux-pro-max/data/typography.csv"
 OUTPUT = Path(__file__).resolve().parent.parent / "data" / "pairings.csv"
+PACKAGE_OUTPUT = Path(__file__).resolve().parent.parent / "src" / "google_fonts_mcp" / "data" / "pairings.csv"
+
+PAIRING_OVERRIDES = {
+    "Premium Sans": {
+        "Heading_Font": "Plus Jakarta Sans",
+        "Body_Font": "DM Sans",
+        "Heading_Weights": "400;700",
+        "Body_Weights": "400;500;700",
+        "Google_Fonts_URL": "https://fonts.google.com/share?selection.family=Plus+Jakarta+Sans:wght@400;700|DM+Sans:wght@400;500;700",
+        "CSS_Import": "@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap');",
+        "Notes": "Note: Google alternatives for Fontshare's Satoshi/General Sans.",
+    },
+    "Startup Bold": {
+        "Heading_Font": "Outfit",
+        "Body_Font": "Rubik",
+        "Heading_Weights": "400;500;600;700",
+        "Body_Weights": "300;400;500;600;700",
+        "Google_Fonts_URL": "https://fonts.google.com/share?selection.family=Outfit:wght@400;500;600;700|Rubik:wght@300;400;500;600;700",
+        "CSS_Import": "@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap');",
+        "Notes": "Note: Google alternatives for Fontshare's Clash Display/Satoshi.",
+    },
+}
 
 
 def derive_contrast_type(category: str, heading: str, body: str) -> str:
@@ -52,17 +73,26 @@ def derive_scale(best_for: str, mood: str) -> str:
 
 def parse_weights_from_css(css_import: str, font_name: str) -> str:
     """Extract wght@ values for a specific font from the CSS import URL."""
-    # Normalize font name for URL matching: "Playfair Display" -> "Playfair+Display"
     url_name = font_name.strip().replace(" ", "+")
-    # Pattern: family=Font+Name:wght@300;400;500
-    pattern = re.escape(url_name) + r":wght@([\d;]+)"
+    pattern = r"family=" + re.escape(url_name) + r"(?=[:&])(?::([^&'\"]+))?"
     match = re.search(pattern, css_import)
-    if match:
-        return match.group(1)
-    # Check if font appears without weights (e.g., single weight like Bebas Neue)
-    if url_name in css_import:
+    if not match or not match.group(1):
         return "400"
-    return "400"
+    spec = match.group(1)
+    if "@" not in spec:
+        return "400"
+    axes_text, values_text = spec.split("@", 1)
+    axes = axes_text.split(",")
+    if "wght" not in axes:
+        return "400"
+    weight_index = axes.index("wght")
+    weights = []
+    for axis_tuple in values_text.split(";"):
+        values = axis_tuple.split(",")
+        if len(values) != len(axes):
+            return "400"
+        weights.append(values[weight_index])
+    return ";".join(dict.fromkeys(weights))
 
 
 def main():
@@ -77,7 +107,7 @@ def main():
             mood = row["Mood/Style Keywords"]
             css_import = row["CSS Import"]
 
-            rows.append({
+            pairing = {
                 "Pairing_Name": row["Font Pairing Name"],
                 "Category": category,
                 "Heading_Font": heading,
@@ -91,7 +121,9 @@ def main():
                 "Google_Fonts_URL": row["Google Fonts URL"],
                 "CSS_Import": css_import,
                 "Notes": row["Notes"],
-            })
+            }
+            pairing.update(PAIRING_OVERRIDES.get(pairing["Pairing_Name"], {}))
+            rows.append(pairing)
 
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     fieldnames = [
@@ -99,12 +131,14 @@ def main():
         "Mood_Keywords", "Best_For", "Contrast_Type", "Scale_Recommendation",
         "Heading_Weights", "Body_Weights", "Google_Fonts_URL", "CSS_Import", "Notes",
     ]
-    with open(OUTPUT, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(rows)
+    for output in (OUTPUT, PACKAGE_OUTPUT):
+        output.parent.mkdir(parents=True, exist_ok=True)
+        with open(output, "w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames, lineterminator="\n")
+            writer.writeheader()
+            writer.writerows(rows)
 
-    print(f"Produced {len(rows)} pairings -> {OUTPUT}")
+    print(f"Produced {len(rows)} pairings -> {OUTPUT} and {PACKAGE_OUTPUT}")
 
 
 if __name__ == "__main__":

@@ -1,8 +1,10 @@
 """Tests for google_fonts_mcp.core."""
 
+import pytest
+
 from google_fonts_mcp.core import (
-    search_fonts, compute_sizes, get_fallback, generate_css,
-    generate_embed, SCALES, _load_csv,
+    BM25, SCALES, _load_csv, compute_sizes, generate_css, generate_embed,
+    generate_tailwind, get_fallback, normalize_weights, search_fonts,
 )
 
 
@@ -35,6 +37,12 @@ def test_compute_sizes():
     assert sizes["base"] == 1.0
     assert sizes["lg"] > 1.0
     assert sizes["sm"] < 1.0
+
+
+def test_compute_sizes_honors_non_default_base():
+    assert compute_sizes(20, 1.25)["base"] == 1.25
+    with pytest.raises(ValueError, match="greater than zero"):
+        compute_sizes(0, 1.25)
 
 
 def test_get_fallback():
@@ -80,13 +88,71 @@ def test_generate_embed_pair_and_single_families():
     assert href.count("family=") == 1
 
 
+def test_generate_embed_merges_same_family_weights():
+    embed = generate_embed("Inter", "Inter", "700", "300;400;500")
+    href = next(line for line in embed.splitlines() if "css2" in line)
+    assert href.count("family=") == 1
+    assert "Inter:wght@300;400;500;700" in href
+
+
 def test_normalize_weights():
-    from google_fonts_mcp.core import normalize_weights
     assert normalize_weights("400,700") == "400;700"
     assert normalize_weights("400;700") == "400;700"
     assert normalize_weights("700;400;400") == "400;700"  # dedupe + sort (css2 400s on dupes)
     assert normalize_weights("100..900") == "100..900"  # variable range passthrough
     assert normalize_weights("ital,wght@0,400;1,700") == "ital,wght@0,400;1,700"  # axis passthrough
+
+
+@pytest.mark.parametrize("weights", [
+    "", "400;evil", "400..100", '400\" onload=\"x', "ital,wght@0,400;1",
+    "wght,ital@400,0", "wght,wght@400,700", "wght@1001",
+])
+def test_normalize_weights_rejects_invalid_specs(weights):
+    with pytest.raises(ValueError):
+        normalize_weights(weights)
+
+
+def test_explicit_axis_specs_sort_and_dedupe_tuples():
+    assert normalize_weights("wght@700;400;700") == "wght@400;700"
+    embed = generate_embed("Inter", "inter", "wght@700", "wght@1000")
+    assert "Inter:wght@700;1000" in embed
+
+
+def test_generated_outputs_escape_font_names():
+    font = "Bad'; color: red; /*\nnext</style></script>"
+    sizes = compute_sizes(16, 1.25)
+    css = generate_css(font, font, "sans-serif", "sans-serif", sizes, "major-third", 1.25, 16)
+    tailwind = generate_tailwind(font, font, "sans-serif", "sans-serif", sizes, "major-third", 1.25, 16)
+    embed = generate_embed('Inter\" onload=\"alert(1)', None, "400", "400")
+    assert "--font-body: 'Bad\\'; color: red; /*\\a next\\3c /style\\3e \\3c /script\\3e ', sans-serif;" in css
+    assert 'body: ["Bad\'; color: red; /*\\nnext\\u003c/style\\u003e\\u003c/script\\u003e", "sans-serif"],' in tailwind
+    assert "</style>" not in css
+    assert "</script>" not in tailwind
+    assert ' onload="' not in embed
+    assert "Inter%22+onload%3D%22alert%281%29" in embed
+
+
+def test_bm25_refit_replaces_previous_corpus():
+    bm25 = BM25()
+    bm25.fit(["alpha"])
+    bm25.fit(["beta", "beta gamma"])
+    assert len(bm25.score("beta")) == 2
+    assert all(score > 0 for score in bm25.score("beta"))
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [
+        ({"query": "", "mode": "single"}, "blank"),
+        ({"query": "x" * 501, "mode": "single"}, "at most"),
+        ({"query": "clean", "mode": "typo"}, "mode"),
+        ({"query": "clean", "mode": "pair", "tier": "A"}, "single mode"),
+        ({"query": "clean", "mode": "single", "max_results": 0}, "between"),
+    ],
+)
+def test_search_rejects_invalid_inputs(kwargs, message):
+    with pytest.raises(ValueError, match=message):
+        search_fonts(**kwargs)
 
 
 def test_compute_sizes_exact():

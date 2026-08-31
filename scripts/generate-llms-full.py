@@ -9,6 +9,13 @@ DATA_DIR = Path(__file__).parent.parent / "data"
 OUTPUT = Path(__file__).parent.parent / "showcase" / "llms-full.txt"
 
 
+def markdown_cell(value, limit=None):
+    text = str(value or "").replace("\r", " ").replace("\n", " ")
+    if limit is not None:
+        text = text[:limit]
+    return text.replace("\\", "\\\\").replace("|", "\\|")
+
+
 def main():
     lines = []
     lines.append("# Google Fonts MCP — Complete Agent Reference")
@@ -27,7 +34,7 @@ def main():
     lines.append("| Scale | Ratio | Best For | Mood |")
     lines.append("|-------|-------|----------|------|")
     for s in scales:
-        lines.append(f"| {s['Scale_Name']} | {s['Ratio']} | {s['Best_For']} | {s['Mood']} |")
+        lines.append("| " + " | ".join(markdown_cell(s[key]) for key in ("Scale_Name", "Ratio", "Best_For", "Mood")) + " |")
     lines.append("")
 
     # Pairings
@@ -39,7 +46,8 @@ def main():
     lines.append("| Pairing | Heading | Body | Category | Contrast | Scale | Best For |")
     lines.append("|---------|---------|------|----------|----------|-------|----------|")
     for p in pairings:
-        lines.append(f"| {p['Pairing_Name']} | {p['Heading_Font']} | {p['Body_Font']} | {p['Category']} | {p['Contrast_Type']} | {p['Scale_Recommendation']} | {p['Best_For'][:60]} |")
+        cells = [p['Pairing_Name'], p['Heading_Font'], p['Body_Font'], p['Category'], p['Contrast_Type'], p['Scale_Recommendation'], p['Best_For'][:60]]
+        lines.append("| " + " | ".join(markdown_cell(value) for value in cells) + " |")
     lines.append("")
 
     # Top fonts
@@ -55,7 +63,8 @@ def main():
     lines.append("| Family | Category | Personality | Contrast | Weight Range | Variable | Mood | Best For |")
     lines.append("|--------|----------|-------------|----------|-------------|----------|------|----------|")
     for f in tier_a:
-        lines.append(f"| {f['Family']} | {f['Category']} | {f.get('Personality','')} | {f.get('Contrast','')} | {f.get('Weight_Range','')} | {f.get('Variable','')} | {f.get('Mood','')[:30]} | {f.get('Best_For','')[:40]} |")
+        cells = [f['Family'], f['Category'], f.get('Personality', ''), f.get('Contrast', ''), f.get('Weight_Range', ''), f.get('Variable', ''), f.get('Mood', '')[:30], f.get('Best_For', '')[:40]]
+        lines.append("| " + " | ".join(markdown_cell(value) for value in cells) + " |")
     lines.append("")
 
     tier_b = [f for f in fonts if f.get("Quality_Tier") == "B" and f.get("Body_Suitable") == "Yes"]
@@ -65,7 +74,8 @@ def main():
     lines.append("| Family | Category | Personality | Weight Range | Variable | Best For |")
     lines.append("|--------|----------|-------------|-------------|----------|----------|")
     for f in tier_b[:30]:
-        lines.append(f"| {f['Family']} | {f['Category']} | {f.get('Personality','')} | {f.get('Weight_Range','')} | {f.get('Variable','')} | {f.get('Best_For','')[:40]} |")
+        cells = [f['Family'], f['Category'], f.get('Personality', ''), f.get('Weight_Range', ''), f.get('Variable', ''), f.get('Best_For', '')[:40]]
+        lines.append("| " + " | ".join(markdown_cell(value) for value in cells) + " |")
     lines.append("")
 
     # MCP Tool Reference

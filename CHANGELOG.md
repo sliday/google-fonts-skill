@@ -1,5 +1,32 @@
 # Changelog
 
+## 1.4.0 — 2026-08-31
+
+### Security
+- Escaped font names for CSS and Tailwind output, URL-encoded Google Fonts families,
+  HTML-escaped embed URLs, and rejected malformed css2 weight specifications.
+- Bounded MCP query length, result count, font names, base size, and documented enums.
+- Upgraded the locked FastMCP dependency graph and pinned the build backend plus all
+  GitHub Actions to reviewed commit SHAs.
+- Enrichment now fails closed when required upstream metadata is unavailable and writes
+  `fonts.csv` atomically. Replicate polling stops after three consecutive transport errors.
+
+### Fixed
+- Single-font embeds now merge heading and body weights instead of dropping body weights.
+- Non-default base sizes now affect generated rem values; zero and negative bases fail
+  with a validation error.
+- Pairing regeneration preserves explicit `ital,wght` tuples and the two Google-only
+  replacements for Fontshare families.
+- Agent-reference Markdown escapes pipe-delimited data, and showcase color hashing marks
+  MD5 as non-security use.
+- CLI scripts reject conflicting `--font`/`--body`, tier filters outside single mode,
+  and out-of-range result limits.
+
+### Added
+- npm package and `npx google-fonts-mcp` launcher pinned to the matching PyPI release.
+- Regression coverage for generated-code injection, input bounds, generator failure paths,
+  CLI conflicts, packaged-data parity, and npm launcher failure and exit behavior.
+
 ## 1.3.1 — 2026-08-24
 
 ### Fixed

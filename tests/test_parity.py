@@ -35,6 +35,12 @@ def test_versions_in_sync():
 
     plugin = json.loads((REPO / ".claude-plugin" / "plugin.json").read_text())["version"]
     marketplace = json.loads((REPO / ".claude-plugin" / "marketplace.json").read_text())
-    assert __version__ == pyproject == plugin
+    package = json.loads((REPO / "package.json").read_text())["version"]
+    assert __version__ == pyproject == plugin == package
     assert marketplace["metadata"]["version"] == pyproject
     assert marketplace["plugins"][0]["version"] == pyproject
+
+
+def test_packaged_data_matches_canonical_data():
+    for name in ("fonts.csv", "pairings.csv", "scales.csv"):
+        assert (REPO / "data" / name).read_bytes() == (REPO / "src" / "google_fonts_mcp" / "data" / name).read_bytes()

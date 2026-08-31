@@ -1,8 +1,13 @@
 """Google Fonts MCP Server — Typography system generator for agents."""
 
+from typing import Annotated, Literal
+
 from fastmcp import FastMCP
+from pydantic import Field
 
 from google_fonts_mcp.core import (
+    MAX_QUERY_LENGTH,
+    MAX_RESULTS_LIMIT,
     SCALES,
     search_fonts as _search_fonts,
     compute_sizes,
@@ -18,10 +23,10 @@ mcp = FastMCP("google-fonts")
 
 @mcp.tool
 def search_fonts(
-    query: str,
-    mode: str = "single",
-    tier: str | None = None,
-    max_results: int = 5,
+    query: Annotated[str, Field(min_length=1, max_length=MAX_QUERY_LENGTH)],
+    mode: Literal["single", "pair", "lookup", "scale"] = "single",
+    tier: Literal["A", "B", "C"] | None = None,
+    max_results: Annotated[int, Field(ge=1, le=MAX_RESULTS_LIMIT)] = 5,
 ) -> list[dict]:
     """Search Google Fonts by description, mood, or use case.
 
@@ -37,13 +42,13 @@ def search_fonts(
 
 @mcp.tool
 def generate_typography_system(
-    heading: str,
-    body: str | None = None,
-    scale: str = "major-third",
-    base: int = 16,
-    heading_weights: str = "400;700",
-    body_weights: str = "300;400;500;600;700",
-    format: str = "all",
+    heading: Annotated[str, Field(min_length=1, max_length=200)],
+    body: Annotated[str, Field(min_length=1, max_length=200)] | None = None,
+    scale: Literal["minor-second", "major-second", "minor-third", "major-third", "perfect-fourth", "augmented-fourth", "perfect-fifth", "golden-ratio"] = "major-third",
+    base: Annotated[int, Field(ge=1, le=512)] = 16,
+    heading_weights: Annotated[str, Field(min_length=1, max_length=200)] = "400;700",
+    body_weights: Annotated[str, Field(min_length=1, max_length=200)] = "300;400;500;600;700",
+    format: Literal["css", "tailwind", "embed", "all"] = "all",
 ) -> dict:
     """Generate a complete typography system from font selection + scale.
 
@@ -52,9 +57,26 @@ def generate_typography_system(
     Weights: semicolon-separated per the css2 API (e.g. "400;700"); variable
     ranges use ".." (e.g. "100..900"). Legacy comma input is auto-converted.
     """
+    heading = heading.strip()
+    if not heading:
+        raise ValueError("heading must not be blank")
+    if len(heading) > 200:
+        raise ValueError("heading must be at most 200 characters")
     if body is None:
         body = heading
-    ratio = SCALES.get(scale, 1.25)
+    else:
+        body = body.strip()
+        if not body:
+            raise ValueError("body must not be blank")
+        if len(body) > 200:
+            raise ValueError("body must be at most 200 characters")
+    if scale not in SCALES:
+        raise ValueError("scale is not supported")
+    if not 1 <= base <= 512:
+        raise ValueError("base must be between 1 and 512")
+    if format not in {"css", "tailwind", "embed", "all"}:
+        raise ValueError("format must be one of: css, tailwind, embed, all")
+    ratio = SCALES[scale]
     sizes = compute_sizes(base, ratio)
     heading_fb = get_fallback(heading)
     body_fb = get_fallback(body) if body != heading else heading_fb

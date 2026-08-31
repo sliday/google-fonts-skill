@@ -1,5 +1,7 @@
 """Tests for google_fonts_mcp.server tools."""
 
+import pytest
+
 from google_fonts_mcp.server import (
     search_fonts, generate_typography_system, lookup_font,
     list_scales, list_pairings,
@@ -69,3 +71,18 @@ def test_generate_typography_system_defaults():
     axis = href.split("wght@", 1)[1].split("&")[0]
     assert "," not in axis
     assert "400" in axis and "700" in axis
+
+
+@pytest.mark.parametrize(
+    "kwargs",
+    [
+        {"heading": ""},
+        {"heading": "Inter", "body": " "},
+        {"heading": "Inter", "scale": "bogus"},
+        {"heading": "Inter", "base": 0},
+        {"heading": "Inter", "format": "bogus"},
+    ],
+)
+def test_generate_typography_system_rejects_invalid_inputs(kwargs):
+    with pytest.raises((KeyError, ValueError)):
+        generate_typography_system(**kwargs)

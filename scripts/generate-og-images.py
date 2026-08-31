@@ -3,9 +3,11 @@
 
 import json
 import os
+import re
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -17,6 +19,8 @@ MANIFEST = SHOWCASE_DIR / "showcase.json"
 API_TOKEN = os.environ.get("REPLICATE_API_TOKEN", "")
 MODEL = "google/nano-banana-2"
 API_URL = "https://api.replicate.com/v1/models/google/nano-banana-2/predictions"
+MAX_POLL_ERRORS = 3
+MAX_IMAGE_BYTES = 10 * 1024 * 1024
 
 STYLE_PROMPTS = {
     "saas": "minimalist abstract gradient background, tech dashboard aesthetic, clean geometric shapes, blue tones, professional",
@@ -52,7 +56,7 @@ def create_prediction(prompt):
         method="POST",
     )
     try:
-        with urllib.request.urlopen(req, timeout=120) as resp:
+        with urllib.request.urlopen(req, timeout=120) as resp:  # nosec B310
             return json.loads(resp.read().decode())
     except urllib.error.HTTPError as e:
         body = e.read().decode() if hasattr(e, 'read') else str(e)
@@ -64,14 +68,20 @@ def create_prediction(prompt):
 
 
 def poll_prediction(prediction_url):
+    parsed = urllib.parse.urlparse(prediction_url)
+    if parsed.scheme != "https" or parsed.hostname != "api.replicate.com":
+        log("  Invalid Replicate polling URL")
+        return None
+    consecutive_errors = 0
     for _ in range(60):
         req = urllib.request.Request(
             prediction_url,
             headers={"Authorization": f"Bearer {API_TOKEN}"},
         )
         try:
-            with urllib.request.urlopen(req, timeout=30) as resp:
+            with urllib.request.urlopen(req, timeout=30) as resp:  # nosec B310
                 result = json.loads(resp.read().decode())
+            consecutive_errors = 0
             status = result.get("status")
             if status == "succeeded":
                 return result.get("output")
@@ -80,15 +90,34 @@ def poll_prediction(prediction_url):
                 return None
             time.sleep(2)
         except Exception as e:
+            consecutive_errors += 1
             log(f"  Poll error: {e}")
+            if consecutive_errors >= MAX_POLL_ERRORS:
+                log(f"  Stopping after {MAX_POLL_ERRORS} consecutive poll errors")
+                return None
             time.sleep(3)
     return None
 
 
 def download_image(url, path):
+    parsed = urllib.parse.urlparse(url)
+    if parsed.scheme != "https" or not parsed.hostname:
+        raise ValueError("image URL must use HTTPS")
     req = urllib.request.Request(url, headers={"User-Agent": "google-fonts-skill/1.0"})
-    with urllib.request.urlopen(req, timeout=60) as resp:
-        path.write_bytes(resp.read())
+    with urllib.request.urlopen(req, timeout=60) as resp:  # nosec B310
+        content_type = resp.headers.get_content_type()
+        if not content_type.startswith("image/"):
+            raise ValueError(f"unexpected image content type: {content_type}")
+        content = resp.read(MAX_IMAGE_BYTES + 1)
+        if len(content) > MAX_IMAGE_BYTES:
+            raise ValueError("image exceeds 10 MiB limit")
+    temp_path = path.with_suffix(path.suffix + ".tmp")
+    try:
+        temp_path.write_bytes(content)
+        os.replace(temp_path, path)
+    finally:
+        if temp_path.exists():
+            temp_path.unlink()
 
 
 def main():
@@ -127,6 +156,9 @@ def main():
     total = len(projects)
     for i, p in enumerate(projects):
         pid = p["id"]
+        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", pid):
+            log(f"[{i+1}/{total}] Skipping invalid project id")
+            continue
         if pid in existing:
             log(f"[{i+1}/{total}] Skipping {pid} (exists)")
             continue

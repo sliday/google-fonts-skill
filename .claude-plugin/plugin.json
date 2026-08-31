@@ -1,7 +1,7 @@
 {
   "name": "google-fonts",
   "description": "Google Fonts typography system generator. Searches 1,923 fonts, suggests singles or pairs, generates CSS/Tailwind typographic systems.",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "author": {
     "name": "Stas Kulesh",
     "email": "stas@sliday.com"

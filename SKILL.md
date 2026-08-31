@@ -123,7 +123,7 @@ python3 scripts/generate-css.py --heading "Space Grotesk" --body "DM Sans" \
 7. Include `preconnect` hints for fonts.googleapis.com and fonts.gstatic.com
 8. Max 3 font families per project (heading + body + optional mono)
 9. css2 URLs separate weights with semicolons (`wght@400;700`), ranges with `..` (`wght@100..900`);
-   commas and dashes return HTTP 400
+   commas are normalized, while malformed axes and dash ranges are rejected
 
 ## Output Includes
 

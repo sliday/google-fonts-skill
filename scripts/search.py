@@ -33,6 +33,11 @@ def main():
     parser.add_argument("--max", type=int, default=5, dest="max_results", help="Max results (default: 5)")
     args = parser.parse_args()
 
+    if args.tier and args.mode != "single":
+        parser.error("--tier is only supported in single mode")
+    if not 1 <= args.max_results <= 50:
+        parser.error("--max must be between 1 and 50")
+
     results = search_fonts(args.query, mode=args.mode, tier=args.tier, max_results=args.max_results)
 
     if not results:

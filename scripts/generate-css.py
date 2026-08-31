@@ -3,7 +3,6 @@
 
 import argparse
 import os
-import sys
 from core import (
     SCALES, compute_sizes, generate_css, generate_tailwind,
     generate_embed, get_fallback,
@@ -27,6 +26,11 @@ def main():
     parser.add_argument("--format", default="all", choices=["css", "tailwind", "embed", "all"], help="Output format (default: all)")
 
     args = parser.parse_args()
+
+    if args.font and args.body:
+        parser.error("--body cannot be used with --font")
+    if args.base <= 0:
+        parser.error("--base must be greater than zero")
 
     if args.font:
         heading = args.font

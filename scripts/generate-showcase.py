@@ -149,7 +149,7 @@ def slugify(name):
 
 
 def accent_for(name):
-    h = int(hashlib.md5(name.encode()).hexdigest()[:8], 16)
+    h = int(hashlib.md5(name.encode(), usedforsecurity=False).hexdigest()[:8], 16)
     return ACCENT_COLORS[h % len(ACCENT_COLORS)]
 
 
