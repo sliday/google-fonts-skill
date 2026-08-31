@@ -35,8 +35,7 @@ def test_versions_in_sync():
 
     plugin = json.loads((REPO / ".claude-plugin" / "plugin.json").read_text())["version"]
     marketplace = json.loads((REPO / ".claude-plugin" / "marketplace.json").read_text())
-    package = json.loads((REPO / "package.json").read_text())["version"]
-    assert __version__ == pyproject == plugin == package
+    assert __version__ == pyproject == plugin
     assert marketplace["metadata"]["version"] == pyproject
     assert marketplace["plugins"][0]["version"] == pyproject
 

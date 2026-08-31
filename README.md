@@ -28,12 +28,6 @@ MCP server and Claude Code skill for typography system generation using Google F
 uvx google-fonts-mcp
 ```
 
-Or launch the same pinned release through npm (requires `uv`):
-
-```bash
-npx google-fonts-mcp
-```
-
 Or install permanently:
 
 ```bash
@@ -178,7 +172,6 @@ python3 scripts/generate-showcase.py
 │   ├── llms-full.txt                 # Agent-readable full reference
 │   └── pages/                        # Individual HTML previews
 ├── tests/                            # pytest suite
-├── bin/google-fonts-mcp.js           # npm/npx launcher for the pinned PyPI release
 └── registry/                         # MCP registry submission files
 ```
 
@@ -187,7 +180,6 @@ python3 scripts/generate-showcase.py
 ```bash
 uv sync          # install deps incl. pytest (dev group)
 uv run pytest -q # run the test suite
-npm test         # test the npx launcher
 ```
 
 Weight strings follow the css2 API: semicolons between discrete weights (`400;700`),

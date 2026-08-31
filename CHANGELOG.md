@@ -23,9 +23,8 @@
   and out-of-range result limits.
 
 ### Added
-- npm package and `npx google-fonts-mcp` launcher pinned to the matching PyPI release.
 - Regression coverage for generated-code injection, input bounds, generator failure paths,
-  CLI conflicts, packaged-data parity, and npm launcher failure and exit behavior.
+  CLI conflicts, and packaged-data parity.
 
 ## 1.3.1 — 2026-08-24
 
