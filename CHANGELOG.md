@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.1 — 2026-08-31
+
+### Fixed
+- Removed the unpublished npm launcher, package metadata, tests, and documentation.
+- Version parity tests no longer require `package.json`.
+- Source distributions now include the scripts, canonical data, and plugin metadata
+  required by their included parity tests.
+
 ## 1.4.0 — 2026-08-31
 
 ### Security

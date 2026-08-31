@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "google-fonts-mcp"
-version = "1.4.0"
+version = "1.4.1"
 description = "MCP server for Google Fonts typography system generation"
 readme = "README.md"
 license = "MIT"
@@ -37,4 +37,4 @@ Documentation = "https://sliday.github.io/google-fonts-skill/"
 packages = ["src/google_fonts_mcp"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/", "tests/", "pyproject.toml", "README.md", "LICENSE"]
+include = ["src/", "tests/", "scripts/", "data/", ".claude-plugin/", "pyproject.toml", "README.md", "LICENSE"]

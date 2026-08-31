@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "Google Fonts typography system generator for Claude Code",
-    "version": "1.4.0"
+    "version": "1.4.1"
   },
   "plugins": [
     {
       "name": "google-fonts",
       "description": "Google Fonts typography system generator. Searches 1,923 fonts, suggests singles or pairs, generates CSS/Tailwind typographic systems.",
       "source": "./",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "keywords": [
         "typography",
         "google-fonts",
